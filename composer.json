@@ -1,0 +1,40 @@
+{
+    "name": "omnipay/epg-payment",
+    "type": "library",
+    "description": "EpgPayment driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "epgpayment",
+        "epg",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/HouseOfAgile/omnipay-epg-payment",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jean-Christophe Meillaud",
+            "email": "jc@houseofagile.com"
+        },
+        {
+            "name": "EpgPayment gateway for Omnipay Contributors",
+            "homepage": "https://github.com/thephpleague/omnipay-epg-payment/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\EpgPayment\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.2"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
