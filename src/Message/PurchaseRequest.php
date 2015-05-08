@@ -4,25 +4,14 @@ namespace Omnipay\EpgPayment\Message;
 /**
  * EpgPayment Purchase Request
  *
- * @method \Omnipay\EpgPayment\Message\PurchaseResponse send()
  */
 class PurchaseRequest extends AbstractRequest
 {
 
-    public function getMetadata()
-    {
-        return $this->getParameter('metadata');
-    }
-
-    public function setMetadata($value)
-    {
-        return $this->setParameter('metadata', $value);
-    }
 
     public function getData()
     {
-        $this->validate('MerchantId', 'MerchantGuid', 'ReturnUrl', 'Amount', 'Currency');
-
+        $this->validate('amount');
 
         $data = array();
 
@@ -30,26 +19,33 @@ class PurchaseRequest extends AbstractRequest
         $data['MerchantGuid'] = $this->getMerchantGuid();
         $data['TransactionReference'] = $this->getTransactionReference();
         $data['ReturnUrl'] = $this->getReturnUrl();
+        $data['TransactionUrl'] = $this->getTransactionUrl();
         $data['TransactionType'] = $this->getTransactionType();
         $data['Amount'] = $this->getAmount();
         $data['Currency'] = $this->getCurrency();
-        $data['FirstName'] = $this->getFirstName();
-        $data['Email'] = $this->getEmail();
-        $data['Country'] = $this->getCountry();
-        $data['Phone'] = $this->getPhone();
 
-        $webhookUrl = $this->getNotifyUrl();
-        if (null !== $webhookUrl) {
-            $data['webhookUrl'] = $webhookUrl;
-        }
+
+        $data['FirstName'] = $this->getCard()->getFirstName();
+        $data['LastName'] = $this->getCard()->getLastName();
+        $data['Email'] = $this->getCard()->getEmail();
+        $data['Country'] = $this->getCard()->getCountry();
+        $data['Phone'] = $this->getCard()->getPhone();
+        $data['TransactionReference'] = "45454";
+
 
         return $data;
     }
 
+
     public function sendData($data)
     {
-        $httpResponse = $this->sendRequest('POST', '/get_result', $data);
+        $token = $this->getEpgToken();
+        if ($token != null) {
+            if ($token['ResultStatus'] == "OK" && $token['Token'] != null) {
+                $newData = array_merge($data, array('Token' => $token['Token']));
+                return $this->response = new PurchaseResponse($this, $newData);
+            }
+        }
 
-        return $this->response = new PurchaseResponse($this, $httpResponse->json());
     }
 }
