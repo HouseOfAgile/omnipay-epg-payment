@@ -6,7 +6,9 @@ use Guzzle\Common\Event;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    protected $endpoint = 'https://apps.epg-services.com/V2/pp/tokenizer';
+
+    protected $liveEndpoint = 'https://apps.epg-services.com/V2/pp/tokenizer';
+    protected $testEndpoint = 'https://api.is.epg-services.com/V2/pp/tokenizer';
 
     public function getMerchantId()
     {
@@ -51,7 +53,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function getEpgToken()
     {
-        $httpResponse = $this->httpClient->post($this->endpoint.'/get', null, $this->getData())
+        $httpResponse = $this->httpClient->post($this->getEndpoint().'/get', null, $this->getData())
             ->send();
         if ($httpResponse->getBody()) {
             // JSON string: { ... }
@@ -59,6 +61,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             return $tokenResponse;
         }
         return null;
+    }
+
+    public function getEndpoint()
+    {
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
 }
