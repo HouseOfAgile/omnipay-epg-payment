@@ -2,7 +2,6 @@
 
 namespace Omnipay\EpgPayment\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
@@ -10,7 +9,6 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-    protected $endpoint = 'https://apps.epg-services.com/V2/pp/paymentpage';
     protected $epgToken;
 
     /**
@@ -41,7 +39,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
 
     public function getRedirectUrl()
     {
-        return $this->endpoint.'?'.http_build_query($this->data);
+        return $this->getEndpoint().'/paymentpage?'.http_build_query($this->data);
     }
 
     public function getRedirectMethod()

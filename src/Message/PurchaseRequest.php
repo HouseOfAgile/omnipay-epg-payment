@@ -42,7 +42,7 @@ class PurchaseRequest extends AbstractRequest
         if ($token != null) {
             if ($token['ResultStatus'] == "OK" && $token['Token'] != null) {
                 $newData = array_merge($data, array('Token' => $token['Token']));
-                return $this->response = new PurchaseResponse($this, $newData);
+                return $this->response = new PurchaseResponse($this, $newData, $this->getEndpoint());
             } else {
 //                print_r($token);
                 throw new HttpException(404, "Error with payment system");
