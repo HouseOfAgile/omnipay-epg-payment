@@ -77,6 +77,7 @@ class Gateway extends AbstractGateway
     {
         return $this->getParameter('transactionUrl');
     }
+
     /**
      * @param  array $parameters
      * @return \Omnipay\EpgPayment\Message\PurchaseRequest
