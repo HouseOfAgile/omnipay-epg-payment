@@ -1,6 +1,5 @@
 <?php
 namespace Omnipay\EpgPayment\Message;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * EpgPayment Purchase Request
@@ -25,8 +24,10 @@ class PurchaseRequest extends AbstractRequest
 
         $data['Amount'] = $this->getAmount();
         $data['Currency'] = $this->getCurrency();
-        $data['FirstName'] = $this->getFirstname();
-        $data['LastName'] = $this->getLastname();
+        $data['FirstName'] = 'John';
+//        $data['FirstName'] = $this->getFirstname();
+//        $data['LastName'] = $this->getLastname();
+        $data['LastName'] = 'Doe';
         $data['Email'] = $this->getEmail();
         $data['Country'] = $this->getCountry();
         $data['City'] = $this->getCity();
@@ -41,11 +42,12 @@ class PurchaseRequest extends AbstractRequest
         $token = $this->getEpgToken();
         if ($token != null) {
             if ($token['ResultStatus'] == "OK" && $token['Token'] != null) {
-                $newData = array_merge($data, array('Token' => $token['Token']));
+                $newData = array_merge(array('MerchantId'=>$data['MerchantId']), array('MerchantGuid'=>$data['MerchantGuid']), array('Token' => $token['Token']));
+                // seems epg need some time to handle the paymentpage request
+                sleep(3);
                 return $this->response = new PurchaseResponse($this, $newData, $this->getEndpoint());
             } else {
-//                print_r($token);
-                throw new HttpException(404, "Error with payment system");
+                throw new \HttpException(404, "Error with payment system");
             }
         }
 

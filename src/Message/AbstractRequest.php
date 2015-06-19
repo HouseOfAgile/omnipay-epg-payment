@@ -7,8 +7,8 @@ use Guzzle\Common\Event;
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
-    protected $liveEndpoint = 'https://apps.epg-services.com/V2/pp';
-    protected $testEndpoint = 'https://apps.is.epg-services.com/V2/pp';
+    protected $liveEndpoint = 'https://pay.epg-services.com';
+    protected $testEndpoint = 'https://pay.is.epg-services.com';
 
     public function getMerchantId()
     {
@@ -106,11 +106,26 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function getEpgToken()
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint().'/tokenizer/get', null, $this->getData())
+        $httpResponse = $this->httpClient->post($this->getEndpoint() . '/tokenizer/get', null, $this->getData())
             ->send();
         if ($httpResponse->getBody()) {
             // JSON string: { ... }
-            parse_str($httpResponse->getBody(),$tokenResponse);
+            parse_str($httpResponse->getBody(), $tokenResponse);
+            return $tokenResponse;
+        }
+        return null;
+    }
+
+    public function getResult($resultToken)
+    {
+        $newData = array_merge(array('MerchantId' => $this->getMerchantId()), array('MerchantGuid' => $this->getMerchantGuid()), array('Token' => $resultToken));
+
+
+        $httpResponse = $this->httpClient->post($this->getEndpoint() . '/tokenizer/getresult', null, $newData)
+            ->send();
+        if ($httpResponse->getBody()) {
+            // JSON string: { ... }
+            parse_str($httpResponse->getBody(), $tokenResponse);
             return $tokenResponse;
         }
         return null;

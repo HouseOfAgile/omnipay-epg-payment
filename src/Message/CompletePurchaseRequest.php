@@ -12,11 +12,14 @@ class CompletePurchaseRequest extends AbstractRequest
     public function getData()
     {
         return $this->httpRequest->request->all();
+
     }
 
     public function sendData($data)
     {
-        die('Not implemented');
+        // Get and check result
+        print_r($this->getResult($this->httpRequest->get('Token')));
+        die('WIP');
     }
 
 }

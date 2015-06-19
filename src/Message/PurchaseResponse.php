@@ -9,23 +9,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-    protected $epgToken;
 
-    /**
-     * @return mixed
-     */
-    public function getEpgToken()
-    {
-        return $this->epgToken;
-    }
-
-    /**
-     * @param mixed $epgToken
-     */
-    public function setEpgToken($epgToken)
-    {
-        $this->epgToken = $epgToken;
-    }
 
     public function isSuccessful()
     {
@@ -39,17 +23,22 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
 
     public function getRedirectUrl()
     {
-        return $this->getEndpoint().'/paymentpage?'.http_build_query($this->data);
+        return $this->getEndpoint().'/'.$this->getEpgToken();
     }
 
     public function getRedirectMethod()
     {
-        return 'POST';
+        return 'GET';
     }
 
 
     public function getRedirectData()
     {
         return $this->getData();
+    }
+
+    public function getEpgToken()
+    {
+        return $this->getData()['Token'];
     }
 }
