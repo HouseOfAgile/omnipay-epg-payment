@@ -34,7 +34,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
      * @param RequestInterface $request the initiating request.
      * @param mixed $data
      */
-    public function __construct(PurchaseRequest $request, $data, $endpoint)
+    public function __construct(AbstractRequest $request, $data, $endpoint)
     {
         $this->request = $request;
         $this->data = $data;

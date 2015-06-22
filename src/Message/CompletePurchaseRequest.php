@@ -17,9 +17,9 @@ class CompletePurchaseRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        // Get and check result
-        print_r($this->getResult($this->httpRequest->get('Token')));
-        die('WIP');
+        $epgResult=$this->getResult($this->httpRequest->get('Token'));
+        return $this->response = new CompletePurchaseResponse($this, $epgResult,$this->getEndpoint());
+
     }
 
 }
