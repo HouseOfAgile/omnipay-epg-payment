@@ -83,16 +83,25 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
 
-    public function setCountry($value)
+    public function setAddress($value)
     {
-        return $this->setParameter('country', $value);
+        return $this->setParameter('address', $value);
     }
 
-    public function getCountry()
+    public function getAddress()
     {
-        return $this->getParameter('country');
+        return $this->getParameter('address');
     }
 
+    public function setZip($value)
+    {
+        return $this->setParameter('zip', $value);
+    }
+
+    public function getZip()
+    {
+        return $this->getParameter('zip');
+    }
 
     public function setCity($value)
     {
@@ -103,6 +112,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->getParameter('city');
     }
+
+    public function setCountry($value)
+    {
+        return $this->setParameter('country', $value);
+    }
+
+    public function getCountry()
+    {
+        return $this->getParameter('country');
+    }
+
 
     public function getEpgToken()
     {

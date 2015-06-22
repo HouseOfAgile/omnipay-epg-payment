@@ -24,12 +24,12 @@ class PurchaseRequest extends AbstractRequest
 
         $data['Amount'] = $this->getAmount();
         $data['Currency'] = $this->getCurrency();
-        $data['FirstName'] = 'John';
-//        $data['FirstName'] = $this->getFirstname();
-//        $data['LastName'] = $this->getLastname();
-        $data['LastName'] = 'Doe';
+        $data['FirstName'] = $this->getFirstname();
+        $data['LastName'] = $this->getLastname();
         $data['Email'] = $this->getEmail();
         $data['Country'] = $this->getCountry();
+        $data['Address'] = $this->getAddress();
+        $data['Zip'] = $this->getZip();
         $data['City'] = $this->getCity();
 
 
